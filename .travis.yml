@@ -1,0 +1,11 @@
+language: objective-c
+before_install:
+    - brew uninstall xctool
+    - brew update
+    - brew install xctool --HEAD  
+    - sudo easy_install cpp-coveralls
+    - gem install xcpretty
+script:
+    - set -o pipefail && xcodebuild build-for-testing test -project CoverallsTest.xcodeproj -scheme CoverallsTest -sdk iphonesimulator -destination "name=iPhone SE" -enableCodeCoverage YES | xcpretty
+after_success:
+  - ./coveralls.sh
