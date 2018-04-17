@@ -1,11 +1,11 @@
 language: objective-c
+osx_image: xcode9.3
 before_install:
-    - brew uninstall xctool
-    - brew update
-    - brew install xctool --HEAD  
-    - sudo easy_install cpp-coveralls
+    - xcodebuild -project CoverallsTest.xcodeproj -list
     - gem install xcpretty
+    - gem install xcodeproj
+    - gem install slather
 script:
     - set -o pipefail && xcodebuild build-for-testing test -project CoverallsTest.xcodeproj -scheme CoverallsTest -sdk iphonesimulator -destination "name=iPhone SE" -enableCodeCoverage YES | xcpretty
 after_success:
-  - ./coveralls.sh
+    - slather
